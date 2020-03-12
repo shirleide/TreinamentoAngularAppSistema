@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Curso } from './servico/curso';
+import { CursoService } from './servico/curso.service';
 
 @Component({
   selector: 'app-curso',
@@ -10,13 +11,23 @@ export class CursoComponent implements OnInit {
 
   curso: Curso = new Curso();
 
-  constructor() { }
+  constructor(
+    private cursoServico: CursoService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  alert(){
-    alert(this.curso.nome);
+
+  pesquisar() {
+
+    this.cursoServico.pesquisar(this.curso.nome).subscribe(
+      retorno => {
+        console.log(retorno);
+      }
+
+    );
+
   }
 
 }
