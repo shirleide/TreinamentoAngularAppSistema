@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Curso } from '../servico/curso';
 import { CursoService } from '../servico/curso.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,9 +14,11 @@ export class CursomanterComponent implements OnInit {
   curso: Curso = new Curso()
 
   constructor(
+    private router: Router,
     private cursoService: CursoService
   ) { }
   ngOnInit(): void {
+    // this.voltar()
   }
 
 
@@ -24,12 +27,13 @@ export class CursomanterComponent implements OnInit {
       retorno => {
         console.log(retorno)
         alert(retorno['mensagem']);
+        this.voltar();
       }
     );
   }
 
 
   voltar() {
-
+    this.router.navigate(['/curso']);
   }
 }

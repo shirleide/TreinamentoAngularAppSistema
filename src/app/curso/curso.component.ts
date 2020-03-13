@@ -20,6 +20,7 @@ export class CursoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.pesquisar()
   }
 
 
