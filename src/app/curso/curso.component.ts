@@ -14,6 +14,8 @@ export class CursoComponent implements OnInit {
 
   listaCurso: Curso[] = [];
   
+  selecionado: Curso;
+
   constructor(
     private router: Router,
     private cursoServico: CursoService
@@ -28,16 +30,29 @@ export class CursoComponent implements OnInit {
 
     this.cursoServico.pesquisar(this.curso.nome).subscribe(
       retorno => {
-        // console.log(retorno);
         this.listaCurso = <Curso[]>retorno;
-        // this.listaCurso = retorno;
       }
     );
   }
-
+  
+  selecionar(valor){
+    this.selecionado = valor;    
+  }
+  
   incluir(){
     this.router.navigate(['/curso/incluir']);
   }
+  
+  alterar(){    
+    this.router.navigate(['/curso/alterar/'+this.selecionado.nome]);
+  }
 
-
+  
+  remover(){
+    this.cursoServico.remover(this.selecionado).subscribe(
+      data => {
+        alert(data['mensagem']);
+      }
+    );
+  }
 }

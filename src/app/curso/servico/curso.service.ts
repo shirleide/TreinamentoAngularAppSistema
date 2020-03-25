@@ -20,4 +20,12 @@ export class CursoService {
     return this.http.post("https://cors-anywhere.herokuapp.com/https://stormy-badlands-29216.herokuapp.com/api/curso/incluir", curso);
   }
 
+  alterar(curso: Curso){        
+    return this.http.patch("https://cors-anywhere.herokuapp.com/https://stormy-badlands-29216.herokuapp.com/api/curso/alterarparcial", curso);
+  }
+
+  remover(curso: Curso) {
+    return this.http.post("https://cors-anywhere.herokuapp.com/https://stormy-badlands-29216.herokuapp.com/api/curso/remover", curso);
+  }
+
 }

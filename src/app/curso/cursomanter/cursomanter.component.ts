@@ -1,33 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { Curso } from '../servico/curso';
 import { CursoService } from '../servico/curso.service';
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cursomanter',
   templateUrl: './cursomanter.component.html',
-  styleUrls: ['./cursomanter.component.css']
+  styleUrls: ['./cursomanter.component.scss']
 })
 export class CursomanterComponent implements OnInit {
 
-  curso: Curso = new Curso()
+  nomeCurso: string = '';
+  curso: Curso = new Curso();
+  operacao: string = 'Incluir';
 
   constructor(
-    private router: Router,
-    private cursoService: CursoService
+    private routeActivated: ActivatedRoute,
+    private cursoService: CursoService,
+    private router: Router
   ) { }
-  ngOnInit(): void {
-    // this.voltar()
-  }
 
+  ngOnInit(): void {
+    this.nomeCurso = this.routeActivated.snapshot.params.id;
+    if (this.nomeCurso != null) {
+      this.operacao = 'Alterar';
+      this.cursoService.pesquisar(this.nomeCurso).subscribe(
+        data => {
+          this.curso = (<Curso[]>data)[0];
+        }
+      );
+    }
+  }
 
   incluir() {
     this.cursoService.incluir(this.curso).subscribe(
       retorno => {
-        console.log(retorno)
         alert(retorno['mensagem']);
         this.voltar();
+      }
+    );
+  }
+
+  alterar() {
+    this.cursoService.alterar(this.curso).subscribe(
+      data => {
+        alert(data['mensagem']);
+        this.router.navigate(['/curso']);
       }
     );
   }
@@ -36,4 +54,5 @@ export class CursomanterComponent implements OnInit {
   voltar() {
     this.router.navigate(['/curso']);
   }
+
 }
